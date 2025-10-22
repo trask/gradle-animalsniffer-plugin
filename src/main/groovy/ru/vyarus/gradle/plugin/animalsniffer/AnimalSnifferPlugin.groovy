@@ -152,7 +152,13 @@ class AnimalSnifferPlugin implements Plugin<Project> {
     private void registerExtensions() {
         extension = project.extensions.create(CHECK_SIGNATURE, AnimalSnifferExtension, project)
         extension.conventionMapping.with {
-            reportsDir = { project.extensions.getByType(ReportingExtension).file(CHECK_SIGNATURE) }
+            reportsDir = {
+                project.extensions.getByType(ReportingExtension)
+                        .baseDirectory
+                        .dir(CHECK_SIGNATURE)
+                        .get()
+                        .asFile
+            }
             sourceSets = { project.sourceSets }
         }
 
